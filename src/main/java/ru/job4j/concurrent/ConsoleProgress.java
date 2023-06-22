@@ -10,7 +10,7 @@ public class ConsoleProgress {
                         while (!Thread.currentThread().isInterrupted()) {
                             Thread.sleep(500);
                             System.out.print("\r load: " + process[index++]);
-                            if (index == 4) {
+                            if (index >= process.length) {
                                 index = 0;
                             }
                         }
@@ -20,7 +20,7 @@ public class ConsoleProgress {
                 }
         );
         progress.start();
-        Thread.sleep(5000); /* симулируем выполнение параллельной задачи в течение 5 секунд. */
+        Thread.sleep(5000);
         progress.interrupt();
     }
 }
