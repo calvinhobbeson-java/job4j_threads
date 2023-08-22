@@ -11,19 +11,16 @@ public class AccountStorage {
     @GuardedBy("this")
     private final HashMap<Integer, Account> accounts = new HashMap<>();
 
-    public synchronized boolean add(Account account) {
-        accounts.putIfAbsent(account.id(), account);
-        return true;
+    public synchronized Account add(Account account) {
+        return accounts.putIfAbsent(account.id(), account);
     }
 
-    public synchronized boolean update(Account account) {
-        accounts.replace(account.id(), account);
-        return true;
+    public synchronized Account update(Account account) {
+       return accounts.replace(account.id(), account);
     }
 
-    public synchronized boolean delete(int id) {
-        accounts.remove(id);
-        return true;
+    public synchronized Account delete(int id) {
+       return accounts.remove(id);
     }
 
     public synchronized Optional<Account> getById(int id) {
@@ -36,7 +33,8 @@ public class AccountStorage {
         if (fromAccount.isPresent() && toAccount.isPresent() && fromAccount.get().amount() >= amount) {
             accounts.replace(fromId, new Account(fromId, accounts.get(fromId).amount() - amount));
             accounts.replace(toId, new Account(toId, accounts.get(toId).amount() + amount));
+            return true;
         }
-        return true;
+        return false;
     }
 }
