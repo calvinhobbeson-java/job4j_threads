@@ -11,16 +11,31 @@ public class AccountStorage {
     @GuardedBy("this")
     private final HashMap<Integer, Account> accounts = new HashMap<>();
 
-    public synchronized Account add(Account account) {
-        return accounts.putIfAbsent(account.id(), account);
+    public synchronized boolean add(Account account) {
+        boolean result = false;
+        if (!accounts.containsKey(account.id())) {
+            accounts.putIfAbsent(account.id(), account);
+            result = true;
+        }
+        return result;
     }
 
-    public synchronized Account update(Account account) {
-       return accounts.replace(account.id(), account);
+    public synchronized boolean update(Account account) {
+        boolean result = false;
+        if (accounts.containsKey(account.id())) {
+            accounts.replace(account.id(), account);
+            result = true;
+        }
+        return result;
     }
 
-    public synchronized Account delete(int id) {
-       return accounts.remove(id);
+    public synchronized boolean delete(int id) {
+        boolean result = false;
+        if (accounts.containsKey(id)) {
+            accounts.remove(id);
+            result = true;
+        }
+        return result;
     }
 
     public synchronized Optional<Account> getById(int id) {
