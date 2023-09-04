@@ -32,8 +32,10 @@ public class CountBarrier {
                 () -> {
                     try {
                         System.out.println(Thread.currentThread().getName() + " started");
-                        for (int i = 1; i <= countBarrier.total; i++)
+                        for (int i = 1; i <= countBarrier.total; i++) {
                             countBarrier.count();
+                            System.out.println(countBarrier.count);
+                        }
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
