@@ -51,8 +51,8 @@ public class CountBarrier {
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
-                }
-                , "Slave"
+                },
+                "Slave"
         );
 
         master.start();
