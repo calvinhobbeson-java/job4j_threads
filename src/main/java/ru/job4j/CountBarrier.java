@@ -25,4 +25,32 @@ public class CountBarrier {
             }
         }
     }
+
+    public static void main(String[] args) {
+        CountBarrier countBarrier = new CountBarrier(5);
+        Thread master = new Thread(
+                () -> {
+                    try {
+                        System.out.println(Thread.currentThread().getName() + " started");
+                        for (int i = 1; i <= countBarrier.total; i++)
+                            countBarrier.count();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+        );
+
+        Thread slave = new Thread(
+                () -> {
+                    try {
+                        System.out.println(Thread.currentThread().getName() + " started");
+                        countBarrier.await();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+        );
+        master.start();
+        slave.start();
+    }
 }
