@@ -39,7 +39,8 @@ public class CountBarrier {
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
-                }
+                },
+                "Master"
         );
 
         Thread slave = new Thread(
@@ -51,7 +52,9 @@ public class CountBarrier {
                         throw new RuntimeException(e);
                     }
                 }
+                , "Slave"
         );
+
         master.start();
         slave.start();
     }
