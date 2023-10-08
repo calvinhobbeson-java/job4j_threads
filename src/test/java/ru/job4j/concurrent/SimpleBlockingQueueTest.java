@@ -33,6 +33,6 @@ class SimpleBlockingQueueTest {
         consumer.start();
         producer.join();
         consumer.join();
-        assertEquals(simpleQueue.poll(),3);
+        assertEquals(simpleQueue.poll(), 3);
     }
 }
