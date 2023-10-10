@@ -4,7 +4,7 @@ import ru.job4j.concurrent.SimpleBlockingQueue;
 
 public class ParallelSearch {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<Integer>(2);
         final Thread consumer = new Thread(
                 () -> {
@@ -19,6 +19,8 @@ public class ParallelSearch {
                 }
         );
         consumer.start();
+        consumer.join();
+        consumer.interrupt();
         new Thread(
                 () -> {
                     for (int index = 0; index != 3; index++) {
