@@ -19,8 +19,6 @@ public class ParallelSearch {
                 }
         );
         consumer.start();
-        consumer.join();
-        consumer.interrupt();
         new Thread(
                 () -> {
                     for (int index = 0; index != 3; index++) {
@@ -38,6 +36,7 @@ public class ParallelSearch {
                 }
 
         ).start();
-
+        consumer.join();
+        consumer.interrupt();
     }
 }
