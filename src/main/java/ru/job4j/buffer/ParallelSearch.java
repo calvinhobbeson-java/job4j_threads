@@ -18,7 +18,7 @@ public class ParallelSearch {
                     }
                 }
         );
-        new Thread(
+        final Thread producer = new Thread(
                 () -> {
                     for (int index = 0; index != 3; index++) {
                         try {
@@ -34,9 +34,10 @@ public class ParallelSearch {
                     }
                 }
 
-        ).start();
+        );
+        producer.start();
         consumer.start();
-        consumer.join();
+        producer.join();
         consumer.interrupt();
     }
 }
