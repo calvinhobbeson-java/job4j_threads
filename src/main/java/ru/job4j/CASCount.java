@@ -11,7 +11,7 @@ public class CASCount {
     public void increment() {
         int temp;
         do {
-            temp = count.get();
+            temp = get();
         }
         while (!count.compareAndSet(temp, count.get() + 1));
     }
