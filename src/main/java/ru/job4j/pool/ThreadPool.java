@@ -12,15 +12,15 @@ public class ThreadPool {
 
     public ThreadPool(int size) {
         for (int i = 0; i < size; i++) {
-            while (!Thread.currentThread().isInterrupted()) {
-                threads.add(new Thread(() -> {
+            threads.add(new Thread(() -> {
+                while (!Thread.currentThread().isInterrupted()) {
                     try {
                         tasks.poll().run();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                }));
-            }
+                }
+            }));
         }
         for (Thread thread : threads) {
             thread.start();
@@ -40,7 +40,6 @@ public class ThreadPool {
     public static void main(String[] args) throws InterruptedException {
         ThreadPool pool = new ThreadPool(SIZE);
         pool.work(() -> {
-            System.out.println(Thread.currentThread().getName());
         });
         pool.shutdown();
     }
