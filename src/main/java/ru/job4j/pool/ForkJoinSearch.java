@@ -1,15 +1,16 @@
 package ru.job4j.pool;
 
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveTask;
 
-public class ForkJoinSearch extends RecursiveTask {
+public class ForkJoinSearch<T> extends RecursiveTask<Integer> {
 
-    private final int[] array;
+    private final T[] array;
     private final int from;
     private final int to;
-    private final int goal;
+    private final T goal;
 
-    public ForkJoinSearch(int[] array, int from, int to, int goal) {
+    public ForkJoinSearch(T[] array, int from, int to, T goal) {
         this.array = array;
         this.from = from;
         this.to = to;
@@ -17,10 +18,10 @@ public class ForkJoinSearch extends RecursiveTask {
     }
 
     @Override
-    protected Object compute() {
-        int[] result = null;
-        if (from == to || from == goal || to == goal) {
-            result = new int[]{array[goal]};
+    protected Integer compute() {
+        T result = null;
+        if ((to - from) <= 10) {
+            linearSearch();
         }
         if (array.length > 10) {
             int mid = (from + to) / 2;
@@ -29,11 +30,26 @@ public class ForkJoinSearch extends RecursiveTask {
             leftSort.fork();
             rightSort.fork();
         }
-        for (int i : array) {
+        for (T i : array) {
             if (i == goal) {
-                result = new int[]{array[goal]};
+                result = i;
             }
         }
-        return result;
+        return (Integer) result;
+    }
+
+    private Integer linearSearch() {
+        T result = null;
+        for (T i : array) {
+            if (i == goal) {
+                result = i;
+            }
+        }
+        return (Integer) result;
+    }
+
+    public static <T> Integer search(T[] array, T goal) {
+        ForkJoinPool pool = new ForkJoinPool();
+        return pool.invoke(new ForkJoinSearch<T>(array, 0, array.length - 1, goal));
     }
 }
