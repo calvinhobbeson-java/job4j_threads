@@ -19,33 +19,26 @@ public class ForkJoinSearch<T> extends RecursiveTask<Integer> {
 
     @Override
     protected Integer compute() {
-        T result = null;
         if ((to - from) <= 10) {
             linearSearch();
         }
-        if (array.length > 10) {
-            int mid = (from + to) / 2;
-            ForkJoinSearch leftSort = new ForkJoinSearch(array, from, mid, goal);
-            ForkJoinSearch rightSort = new ForkJoinSearch(array, mid + 1, to, goal);
-            leftSort.fork();
-            rightSort.fork();
-        }
-        for (T i : array) {
-            if (i == goal) {
-                result = i;
-            }
-        }
-        return (Integer) result;
+        int mid = (from + to) / 2;
+        ForkJoinSearch<T> leftSort = new ForkJoinSearch(array, from, mid, goal);
+        ForkJoinSearch<T> rightSort = new ForkJoinSearch(array, mid + 1, to, goal);
+        leftSort.fork();
+        rightSort.fork();
+        int left = leftSort.join();
+        int right = rightSort.join();
+        return Math.max(left, right);
     }
 
     private Integer linearSearch() {
-        T result = null;
-        for (T i : array) {
-            if (i == goal) {
-                result = i;
+        for (int index = from; index < to; index++) {
+            if (array[index] == goal) {
+                return index;
             }
         }
-        return (Integer) result;
+        return -1;
     }
 
     public static <T> Integer search(T[] array, T goal) {
