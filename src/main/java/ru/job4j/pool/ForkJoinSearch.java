@@ -33,8 +33,8 @@ public class ForkJoinSearch<T> extends RecursiveTask<Integer> {
     }
 
     private Integer linearSearch() {
-        for (int index = from; index < to; index++) {
-            if (array[index] == goal) {
+        for (int index = from; index <= to; index++) {
+            if (array[index].equals(goal)) {
                 return index;
             }
         }
