@@ -20,7 +20,7 @@ public class ForkJoinSearch<T> extends RecursiveTask<Integer> {
     @Override
     protected Integer compute() {
         if ((to - from) <= 10) {
-            linearSearch();
+           return linearSearch();
         }
         int mid = (from + to) / 2;
         ForkJoinSearch<T> leftSort = new ForkJoinSearch(array, from, mid, goal);
