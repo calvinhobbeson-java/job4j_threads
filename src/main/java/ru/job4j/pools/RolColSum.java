@@ -23,12 +23,17 @@ public class RolColSum {
     }
 
     public static Sums[] sum(int[][] matrix) {
+        Sums sums = new Sums();
+        int rowSum = 0;
+        int colSum = 0;
         for (int i = 0; i < matrix.length; i++) {
-            matrix[i][i]
             for (int j = 0; j < matrix.length; j++) {
-
+                rowSum += matrix[i][j];
+                colSum += matrix[j][i];
             }
         }
+        sums.setColSum(colSum);
+        sums.setRowSum(rowSum);
     }
 
     public static Sums[] asyncSum(int[][] matrix) {
